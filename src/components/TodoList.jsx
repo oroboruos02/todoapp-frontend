@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { List, Input, Button, Menu, Dropdown, Switch, Radio, DatePicker, notification } from 'antd';
-import { PlusOutlined, EllipsisOutlined, BulbOutlined } from '@ant-design/icons';
+import { List, Input, Button, Menu, Dropdown, Switch, DatePicker, notification, Checkbox, Radio } from 'antd';
+import { EllipsisOutlined, BulbOutlined } from '@ant-design/icons';
 import './TodoList.css';
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
+  const [archivedTasks, setArchivedTasks] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [darkMode, setDarkMode] = useState(false);
   const [filter, setFilter] = useState('all');
+  const [showArchived, setShowArchived] = useState(false);
 
   useEffect(() => {
     checkTasksDue();
-  }, [tasks]); // Verificar tareas cuando las tareas cambian
+  }, [tasks]);
 
   const handleAddTask = () => {
     if (inputValue.trim() !== '') {
-      setTasks([...tasks, { id: Date.now(), text: inputValue, completed: false }]);
+      setTasks([...tasks, { id: Date.now(), text: inputValue, completed: false, priority: '', color: 'gray' }]);
       setInputValue('');
-      // Mostrar notificación para agregar una nueva tarea
       notification.success({
         message: 'Nueva tarea agregada',
         description: 'Has agregado una nueva tarea correctamente.',
@@ -34,27 +35,26 @@ const TodoList = () => {
   const handleToggleComplete = (taskId) => {
     setTasks(tasks.map(task => {
       if (task.id === taskId) {
-        // Mostrar notificación para completar una tarea
-        if (!task.completed) {
-          notification.success({
-            message: '¡Felicitaciones!',
-            description: 'Has completado una tarea con éxito.',
-          });
-        }
-        return { ...task, completed: !task.completed };
+        const newCompleted = !task.completed;
+        notification.success({
+          message: newCompleted ? '¡Felicitaciones!' : 'Tarea desmarcada',
+          description: newCompleted ? 'Has completado una tarea con éxito.' : 'Has desmarcado una tarea.',
+        });
+        return { ...task, completed: newCompleted };
       }
       return task;
     }));
   };
 
   const handleArchiveCompletedTasks = () => {
+    const completedTasks = tasks.filter(task => task.completed);
+    setArchivedTasks([...archivedTasks, ...completedTasks]);
     setTasks(tasks.filter(task => !task.completed));
   };
 
   const handleSetDeadline = (taskId, deadline) => {
     setTasks(tasks.map(task => {
       if (task.id === taskId) {
-        // Mostrar notificación para establecer la fecha límite
         notification.info({
           message: 'Fecha límite establecida',
           description: 'Has establecido una fecha límite para esta tarea.',
@@ -65,16 +65,16 @@ const TodoList = () => {
     }));
   };
 
-  const handleAddSubtask = (taskId, subtask) => {
-    setTasks(tasks.map(task => task.id === taskId ? { ...task, subtasks: [...(task.subtasks || []), subtask] } : task));
-  };
-
-  const handleSetPriority = (taskId, priority) => {
-    setTasks(tasks.map(task => task.id === taskId ? { ...task, priority } : task));
+  const handleSetPriority = (taskId, priority, color) => {
+    setTasks(tasks.map(task => task.id === taskId ? { ...task, priority, color } : task));
   };
 
   const handleDeleteTask = (taskId) => {
     setTasks(tasks.filter(task => task.id !== taskId));
+  };
+
+  const handleDeleteArchivedTask = (taskId) => {
+    setArchivedTasks(archivedTasks.filter(task => task.id !== taskId));
   };
 
   const handleToggleDarkMode = () => {
@@ -89,8 +89,14 @@ const TodoList = () => {
 
   const taskMenu = (taskId) => (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item>Set Priority</Menu.Item>
-      <Menu.Item>Add Subtask</Menu.Item>
+      <Menu.Item key="priority">
+        Set Priority:
+        <div>
+          <Button type="text" onClick={() => handleSetPriority(taskId, 'alto', 'rgba(255, 0, 0, 0.2)')} style={{ color: 'red' }}>Alto</Button>
+          <Button type="text" onClick={() => handleSetPriority(taskId, 'medio', 'rgba(255, 255, 0, 0.2)')} style={{ color: 'yellow' }}>Medio</Button>
+          <Button type="text" onClick={() => handleSetPriority(taskId, 'bajo', 'rgba(0, 255, 0, 0.2)')} style={{ color: 'green' }}>Bajo</Button>
+        </div>
+      </Menu.Item>
       <Menu.Item key="deadline">Set Deadline:
         <DatePicker onChange={(date) => handleSetDeadline(taskId, date)} />
       </Menu.Item>
@@ -140,6 +146,8 @@ const TodoList = () => {
         <Button type="primary" onClick={handleAddTask}>
           Add Task
         </Button>
+        <Button onClick={handleArchiveCompletedTasks}>Archive Completed Tasks</Button>
+        <Button onClick={() => setShowArchived(!showArchived)}>Show Archived</Button>
       </div>
       <Radio.Group value={filter} onChange={e => setFilter(e.target.value)} style={{ marginBottom: '16px' }}>
         <Radio.Button value="all">All</Radio.Button>
@@ -149,16 +157,27 @@ const TodoList = () => {
       <List
         dataSource={filteredTasks}
         renderItem={task => (
-          <List.Item actions={[
-            <Dropdown overlay={taskMenu(task.id)} trigger={['click']} placement="bottomRight" key="ellipsis">
+          <List.Item className={`task-item ${task.priority ? task.priority : 'gray'}`} style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Checkbox onChange={() => handleToggleComplete(task.id)} checked={task.completed} />
+            <span onClick={() => handleToggleComplete(task.id)} style={{ textDecoration: task.completed ? 'line-through' : 'none', marginRight: '8px' }}>{task.text}</span>
+            <Dropdown overlay={taskMenu(task.id)} trigger={['click']} placement="bottomRight" key="ellipsis" style={{ marginTop: '8px' }}>
               <Button icon={<EllipsisOutlined />} />
             </Dropdown>
-          ]} style={{ cursor: 'pointer' }}>
-            <Radio onChange={() => handleToggleComplete(task.id)} checked={task.completed} />
-            <span onClick={() => handleToggleComplete(task.id)} style={{ textDecoration: task.completed ? 'line-through' : 'none', marginLeft: '8px' }}>{task.text}</span>
           </List.Item>
         )}
       />
+      {showArchived && (
+        <List
+          header={<div>Archived Tasks</div>}
+          dataSource={archivedTasks}
+          renderItem={task => (
+            <List.Item key={task.id}>
+              <span>{task.text}</span>
+              <Button type="link" onClick={() => handleDeleteArchivedTask(task.id)}>Delete</Button>
+            </List.Item>
+          )}
+        />
+      )}
     </div>
   );
 };

@@ -14,6 +14,7 @@
   }
   .task-item {
     cursor: pointer;
+    
   }
   .task-item.completed {
     text-decoration: line-through;
@@ -21,3 +22,72 @@
   .menu-item-delete {
     border-top: 1px solid #ccc;
   }
+
+
+  .task-item {
+    background-color: #ccc; /* Color gris por defecto */
+  }
+  
+  .task-item.alto {
+    background-color: rgba(255, 0, 0, 0.2); /* Color rojo para prioridad alto */
+  }
+  
+  .task-item.medio {
+    background-color: rgba(255, 255, 0, 0.2); /* Color amarillo para prioridad medio */
+  }
+  
+  .task-item.bajo {
+    background-color: rgba(0, 255, 0, 0.2); /* Color verde para prioridad bajo */
+  }
+
+
+
+  .task-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+  
+  .task-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .task-item .ant-checkbox-wrapper {
+    margin-right: 16px; /* Aumenté el margen para centrar más */
+  }
+  
+  .task-item .ant-checkbox-inner {
+    border-color: #1890ff;
+  }
+  
+  .task-item .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #1890ff;
+  }
+  
+  .task-item .task-text {
+    flex-grow: 1;
+    cursor: pointer;
+  }
+  
+  .task-item .task-menu {
+    margin-left: auto; /* Para empujar el menú kebab hacia la derecha */
+  }
+  
+  .task-item .ant-dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .task-item .ant-dropdown-menu-item {
+    padding: 8px 20px;
+  }
+  
+  .task-item .ant-dropdown-menu-item:hover {
+    background-color: #e6f7ff;
+  }
+
+  
