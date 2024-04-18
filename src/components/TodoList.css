@@ -1,0 +1,23 @@
+.app-container {
+    padding: 20px;
+  }
+  .task-input {
+    margin-right: 8px;
+    width: 70%;
+  }
+  .add-task-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .task-item {
+    cursor: pointer;
+  }
+  .task-item.completed {
+    text-decoration: line-through;
+  }
+  .menu-item-delete {
+    border-top: 1px solid #ccc;
+  }

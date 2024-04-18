@@ -1,0 +1,26 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+h1 {
+  text-align: center;
+  cursor: pointer;
+}
+.app-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.app-content {
+  width: 600px;
+}
+.logo {
+  width: 300px; /* ajusta el tamaño del logo según lo necesites */
+  height: auto; /* permite que la altura se ajuste automáticamente según el ancho */
+  margin: 40px auto; /* margen superior e inferior de 30px, centrado horizontalmente */
+  display: block; /* asegura que el logo se muestre como un bloque */
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
