@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import TodoList from './components/TodoList';
 import LoginForm from './components/LoginForm';
@@ -13,6 +12,7 @@ const App = () => {
           <img src={logo} alt="Logo" className="logo" /> {/* Muestra el logo globalmente */}
           <h1 className="app-title">ToDo List</h1> {/* Título "ToDo List" */}
           <Routes>
+          <Route path='*' element={<h1>Page not found</h1>}/>
             <Route path="/todoapp-frontend" element={<LoginForm />} />
             <Route path="/todoapp-frontend/login" element={<LoginForm />} />
             <Route path="/todoapp-frontend/todolist" element={<TodoList />} />
