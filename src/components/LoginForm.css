@@ -1,0 +1,54 @@
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: white; /* Color de fondo en modo claro */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .login-form {
+  background-color: #333; /* Color de fondo en modo oscuro */
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.login-form input {
+  width: 97%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.login-form .login-button {
+  display: block;
+  width: 30%;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: #007bff; /* Color del botón en modo claro */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dark-mode .login-form .login-button {
+  background-color: #0056b3; /* Color del botón en modo oscuro */
+}
+
+.login-form .login-button:hover {
+  background-color: #0056b3; /* Color del botón en modo claro al pasar el cursor */
+}
+
+.dark-mode .login-form .login-button:hover {
+  background-color: #007bff; /* Color del botón en modo oscuro al pasar el cursor */
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
