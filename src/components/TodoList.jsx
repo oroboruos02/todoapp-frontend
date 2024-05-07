@@ -24,7 +24,7 @@ const TodoList = () => {
       const userId = localStorage.getItem('userId');
       if (userId) {
         try {
-          const response = await fetch(`http://localhost:3001/api/tasks?userId=${userId}`);
+          const response = await fetch(`https://todoapp-backend-ok2p.onrender.com/api/tasks?userId=${userId}`);
           if (response.ok) {
             const data = await response.json();
             // Asignar los colores definidos localmente a las tareas cargadas
@@ -71,7 +71,7 @@ const TodoList = () => {
   const handleAddTask = () => {
     const userId = localStorage.getItem('userId');
     if (inputValue.trim() !== '' && userId) {
-      fetch('http://localhost:3001/api/tasks', {
+      fetch('https://todoapp-backend-ok2p.onrender.com/api/tasks', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -117,7 +117,7 @@ const TodoList = () => {
 
   const handleToggleComplete = (taskId) => {
     const userId = localStorage.getItem('userId');
-    fetch(`http://localhost:3001/api/tasks/${taskId}/complete?userId=${userId}`, {
+    fetch(`https://todoapp-backend-ok2p.onrender.com/api/tasks/${taskId}/complete?userId=${userId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -159,7 +159,7 @@ const TodoList = () => {
   
     // Realizar la solicitud de archivar para cada tarea completada
     Promise.all(completedTasks.map(task => {
-      return fetch(`http://localhost:3001/api/tasks/${task.id}/archive`, {
+      return fetch(`https://todoapp-backend-ok2p.onrender.com/api/tasks/${task.id}/archive`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -200,7 +200,7 @@ const TodoList = () => {
     const userId = localStorage.getItem('userId');
     
     // Actualiza la fecha límite en la base de datos
-    fetch(`http://localhost:3001/api/tasks/${taskId}/deadline?userId=${userId}`, {
+    fetch(`https://todoapp-backend-ok2p.onrender.com/api/tasks/${taskId}/deadline?userId=${userId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -265,7 +265,7 @@ const TodoList = () => {
     }
   
     // Enviar la nueva prioridad y el color al servidor
-    fetch(`http://localhost:3001/api/tasks/${taskId}/priority`, {
+    fetch(`https://todoapp-backend-ok2p.onrender.com/api/tasks/${taskId}/priority`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -292,7 +292,7 @@ const TodoList = () => {
 
   const handleDeleteTask = (taskId) => {
     const userId = localStorage.getItem('userId');
-    fetch(`http://localhost:3001/api/tasks/${taskId}?userId=${userId}`, {
+    fetch(`https://todoapp-backend-ok2p.onrender.com/api/tasks/${taskId}?userId=${userId}`, {
       method: 'DELETE',
     })
     .then(response => {
